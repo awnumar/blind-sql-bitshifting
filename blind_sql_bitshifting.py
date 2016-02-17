@@ -21,10 +21,10 @@ options = {
 dump = []
 
 def fix_host(host):
-	if ((not host.startswith("http://")) and (not host.startswith("https://"))):
-	    return "http://" + host
+    if ((not host.startswith("http://")) and (not host.startswith("https://"))):
+        return "http://" + host
     if (host.endswith("/")):
-		return host[:-1]
+        return host[:-1]
 
 def request(target):
     headers = {"user-agent" : options["user_agent"]}
