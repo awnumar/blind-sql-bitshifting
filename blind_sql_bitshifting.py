@@ -93,3 +93,4 @@ def exploit():
                         count += 1
                         s += str(char)
                 dump.append(s)
+    return dump
