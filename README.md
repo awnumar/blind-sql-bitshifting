@@ -1,5 +1,5 @@
 # Blind SQL Injection via Bitshifting
-This is an exploit written for the **WHFramework**.
+This is a module written for the **WHFramework**.
 
 It performs blind SQL injection by using the bitshifting method to calculate chars instead of guessing them. It requires exactly 8 requests per character.
 
