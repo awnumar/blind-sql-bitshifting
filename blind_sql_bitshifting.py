@@ -20,11 +20,16 @@ options = {
 
 dump = []
 
-def fix_host(host):
+def fix_http(host):
     if ((not host.startswith("http://")) and (not host.startswith("https://"))):
         return "http://" + host
+    else:
+        return host
+def fix_slash(host):
     if (host.endswith("/")):
         return host[:-1]
+    else:
+        return host
 
 def request(target):
     headers = {"user-agent" : options["user_agent"]}
@@ -62,7 +67,8 @@ def getChar(target):
         return chr(int(byte, 2))
 		
 def exploit():
-    options["target"] = fix_host(options["target"])
+    options["target"] = fix_http(options["target"])
+    options["target"] = fix_slash(options["target"])
     columns = options['columns'].split(',')
     row_cells = []
     for column in columns:
