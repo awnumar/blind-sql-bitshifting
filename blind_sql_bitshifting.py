@@ -1,9 +1,8 @@
 #!/usr/bin/python2
 
-# Blind SQL Injection via Bitshifting Method
+# Blind SQL Injection via the Bitshifting Method
 # Method by Jelmer de Hen (https://www.exploit-db.com/papers/17073/)
-# Module written by Eclipse of Team Salvation
-# Module written for implementation in WHFramework (http://ljdbosgro7jj4z7r.onion)
+# Module written by Eclipse of Team Salvation (http://ljdbosgro7jj4z7r.onion)
 
 import requests
 
