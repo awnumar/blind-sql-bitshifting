@@ -6,15 +6,17 @@ Method by **Jelmer de Hen** (https://www.exploit-db.com/papers/17073/)
 
 Implementation coded by **Eclipse** of **Team Salvation** (http://ljdbosgro7jj4z7r.onion)
 
-##Usage
+## Usage
 ```
 import blind-sql-bitshifting as x
 
-# Edit this to configure:
+# Edit this dictionary to configure attack vectors
 x.options
+```
 
-# Example configuration: 
+### Example configuration: 
 
+```
 # Vulnerable link
 x.options["target"] = "http://www.example.com/index.php?id=1",
 
