@@ -32,7 +32,7 @@ x.options["follow_redirections"] = 0,
 # Specify user-agent
 x.options["user_agent"] = "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)",
 
-# Specify table name to dump
+# Specify table to dump
 x.options["table_name"] = "table",
 
 # Specify columns to dump
