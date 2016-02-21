@@ -18,25 +18,25 @@ x.options
 
 ```
 # Vulnerable link
-x.options["target"] = "http://www.example.com/index.php?id=1",
+x.options["target"] = "http://www.example.com/index.php?id=1"
 
 # Specify cookie (optional)
-x.options["cookies"] = "",
+x.options["cookies"] = ""
 
 # Specify a condition for a specific row, e.g. 'uid=1' for admin (1 = no condition)
-x.options["row_condition"] = "1",
+x.options["row_condition"] = "1"
 
 # Boolean option for following redirections
-x.options["follow_redirections"] = 0,
+x.options["follow_redirections"] = 0
 
 # Specify user-agent
-x.options["user_agent"] = "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)",
+x.options["user_agent"] = "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)"
 
 # Specify table to dump
-x.options["table_name"] = "table",
+x.options["table_name"] = "table"
 
 # Specify columns to dump
-x.options["columns"] = "col1,col2",
+x.options["columns"] = "col1,col2"
 
 # String to check for on page after successful statement
 x.options["truth_string"] = "<p id='header'>true</p>"
