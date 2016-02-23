@@ -46,7 +46,7 @@ Then:
 
 `x.exploit()`
 
-This returns a 2-dimentional array, with each sub-array containing a single row, the first being the column headers.
+This returns a 2-dimensional array, with each sub-array containing a single row, the first being the column headers.
 
 Example output:
 
