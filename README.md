@@ -4,8 +4,6 @@ This is a module that performs blind SQL injection by using the bitshifting meth
 
 Method by **Jelmer de Hen** (https://www.exploit-db.com/papers/17073/)
 
-Implementation coded by **Eclipse** of **Team Salvation** (http://ljdbosgro7jj4z7r.onion)
-
 ## Usage
 ```
 import blind-sql-bitshifting as x
