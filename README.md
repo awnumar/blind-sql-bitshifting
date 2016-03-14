@@ -21,8 +21,8 @@ x.options["target"] = "http://www.example.com/index.php?id=1"
 # Specify cookie (optional)
 x.options["cookies"] = ""
 
-# Specify a condition for a specific row, e.g. 'uid=1' for admin (1 = no condition)
-x.options["row_condition"] = "1"
+# Specify a condition for a specific row, e.g. 'uid=1' for admin
+x.options["row_condition"] = ""
 
 # Boolean option for following redirections
 x.options["follow_redirections"] = 0
