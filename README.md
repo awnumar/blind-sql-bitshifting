@@ -2,7 +2,14 @@
 
 This is a module that performs blind SQL injection by using the bitshifting method to **calculate** chars instead of guessing them. It requires exactly 8 requests per character. Further efficency is possible in some cases with a few modifications.
 
-Method by **Jelmer de Hen** (https://www.exploit-db.com/papers/17073/)
+Quoted from the original [paper](https://www.exploit-db.com/papers/17073/):
+
+```
+Further optimizing this technique can be done.
+The ASCII table is just 127 characters which is 7 bits per character so we can assume we will never go over it and decrement this technique with 1 request per character.
+```
+
+This module does not make those assumptions, but can with some slight modifications. This way, it will handle all scenarios, including edge cases.
 
 ## Usage
 ```
