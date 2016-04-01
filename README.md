@@ -69,7 +69,7 @@ print tabulate(data,
                tablefmt='psql')
 ```
 
-This would output
+This would output:
 
 ```
 +------+------------+
