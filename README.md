@@ -19,7 +19,7 @@ import blind-sql-bitshifting as x
 x.options
 ```
 
-### Example configuration: 
+### Example configuration:
 
 ```
 # Vulnerable link
@@ -56,3 +56,26 @@ This returns a 2-dimensional array, with each sub-array containing a single row,
 Example output:
 
 `[['id', 'username'], ['1', 'lol'], ['2', 'lel']]`
+
+Optionally, your scripts can then harness the [tabulate](https://pypi.python.org/pypi/tabulate) module to output the data:
+
+```
+from tabulate import tabulate
+
+data = x.exploit()
+
+print tabulate(data,
+               headers='firstrow',
+               tablefmt='psql')
+```
+
+This would output
+
+```
++------+------------+
+|   id | username   |
+|------+------------|
+|    1 | lol        |
+|    2 | lel        |
++------+------------+
+```
