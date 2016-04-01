@@ -65,8 +65,8 @@ from tabulate import tabulate
 data = x.exploit()
 
 print tabulate(data,
-               headers='firstrow',
-               tablefmt='psql')
+               headers='firstrow', # This specifies to use the first row as the column headers.
+               tablefmt='psql') # Using the SQL output format. Other formats can be used.
 ```
 
 This would output:
