@@ -37,13 +37,12 @@ x.options["columns"] = "id, username"
 
 # String to check for on page after successful statement
 x.options["truth_string"] = "<p id='success'>true</p>"
+
+# See below
+x.options["assume_only_ascii"] = 1
 ```
 
-There's another boolean option that you can specify to make dumping faster:
-
-`x.options["assume_only_ascii"] = 1`
-
-This option makes the module assume that the characters it's dumping are all ASCII. Since the ASCII charset only goes up to `127`, we can set the first bit to `0` and not worry about calculating it. That's a `12.5%` reduction in requests. Testing locally, this yeilded an average speed increase of `15%`. Of course this can cause issues when dumping chars that are outside of the ASCII range. By default, it's set to `0`.
+The `assume_only_ascii` option makes the module assume that the characters it's dumping are all ASCII. Since the ASCII charset only goes up to `127`, we can set the first bit to `0` and not worry about calculating it. That's a `12.5%` reduction in requests. Testing locally, this yeilded an average speed increase of `15%`. Of course this can cause issues when dumping chars that are outside of the ASCII range. By default, it's set to `0`.
 
 Once configured, call the `exploit()` function:
 
