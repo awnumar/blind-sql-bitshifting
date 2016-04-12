@@ -125,3 +125,6 @@ def exploit():
                 row_cells.append(s)
             dump.append(row_cells)
     return dump
+
+if __name__ == "__main__":
+    exploit()
