@@ -46,7 +46,9 @@ The `assume_only_ascii` option makes the module assume that the characters it's 
 
 Once configured:
 
-`x.exploit()`
+```
+data = x.exploit()
+```
 
 This returns a 2-dimensional array, with each sub-array containing a single row, the first being the column headers.
 
